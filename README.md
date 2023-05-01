@@ -1,88 +1,59 @@
-# Major Group Project 1 (2D)
+## How to set up
+Ensure that you have git installed. Also ensure that you have Unity 2021.3.17f1 installed. Later versions may work as well, but that is the version the game was developed in. We have not tested it in other versions. Be sure to clone the repository into a desired folder. 
+Open the project using unity hub. It may prompt you to install some extra things if it is your first time using Unity hub. The first open will take much longer than the rest due to Unity downloading necessary files. 
+You may also need to add the scenes to the build settings. You can find this in File > Build settings. There are three scenes to add: MainMenu, InstructionsScene, and TophatSurvivor. They need to be in this order in the list. 
 
-You can work on this assignment alone or in a group of no more than 2 students.
+## Assets
+You can find Project 1/Assets/Characters. Here you can change the look of the player enemies. Although, animations may have to be redone for each new character. You can also find new assets in Project 1/Assets/TilePallettes for the map/background. Here you can use these assets to create a new level by creating a new tilemap, you just need to set up the boarders with a box collider and a rigid body so the character cannot walk through the edges of the map.
 
-| Group Member Name          | GitHub Username    |
-| :------------------------- |:------------------:|
-| Jonathan Zhu | ImJonathanZ |
-| Peter Regas | PeterRegas |
+## How to play test
+Unity hub should open the game to the main menu screen. YOU NEED TO START FROM THIS SCENE. If it does not open this screen, you can find it at Project 1/Assets/Scenes/MainMenu.unity. 
+![MainMenu Screen](DocumentationImages/MainMenuImage.png)
 
-Trailer video URL: https://www.youtube.com/watch?v=L_wKFejtyyo
+From here you have the option to either play a new game, load your previous save, check the instructions or quit the game. Your character will now spawn in the middle of the map to. Utilize WASD keys to move, and use your mouse cursor to aim your bullets. Enemies will spawn at different spots in the map and chase you. When they make contact with you, you will lose health, indicated at the bottom left. When you kill an enemy, they will drop an orb which will increase your character's experience and score. Once you reach 0 health, the game will end
 
-_**Note:** The commit logs will be examined to be sure that both participants participated equally on this project._
+![In Game Screen](DocumentationImages/InGameImage.png)
 
-_**Note:** You can delete the unused rows from the table, if working alone._
+## Creating the Main menu
+The main menu was built using the UI builder provided by Unity. Check to see if this is installed for you. If it is not, you must install it by adding com.unity.ui.builder and com.unity.ui. 
+You can use our UI object in our MainMenu scene to create a similar system to start new game, load save, instructions and quit the game. You just need to edit the names of the scenes in the MainMenuController.cs file to open the correct scenes and load the correct information. 
 
-_**Note:** Collaboration (outside of your group) should be limited to non-technical, non-programming discussions only, and sharing of code is prohibited._
+## Creating Instructions
+The instructions scene consists of a background, text on top of an image, and a few buttons. You can opt to use this entire scene for your instructions. You can opt to change the images of the background, and the image the text is layed over to match your game. You can do this by just changing the source images. The buttons will work no matter what, but is designed only for two pages of instructions. You can choose to edit the text game objects to suit the needs of the game. You can also change the videos of the demonstrations by changing the video clip in the corresponding VideoPlayer. 
 
-## Overview
+![Change Video](DocumentationImages/ChangeVideoImage.png)
 
-For this major group project, you will work two components:
+## Creating your HUD
+Your HUD (Heads up display) is connected with your player. It consists of the health, level, and score. The hud is connected to the PlayerAttributes.cs script. You can find this in Project 1/Assets/Scripts. You can add this script to your player to ensure that they have specific attributes. With your HUD connected with this script in your player, whenever you make contact with an enemy you will lose HP, and when you pick up an XP or HP orb, you will gain experience, health and score. They XP and HP orbs need to have the tags "xp" and "hp" respectively to work. 
 
-1. A repository with a collection of assets and instructions for making a 2D game of some genre
-2. A sample game created using the instructions provided
+## Creating your pause menu and death screen screen
+Both the pause menu and the death screen are very similar. They both consists of a panel that is initially set inactive. Based on different actions, they will become active (visible). The pause menu shows when the pause button or "escape" is pressed. The death screen appears when the player's health reaches 0. Both of them consists of buttons that will take you to the corresponding screens. You can change this in the Pausemenu.cs file to load whatever scenes you wish. 
 
-Take care to collect the right assets (that you have the rights to use), make the game playable, make it fun, and test it thoroughly before submitting!  The instructions should be provided in a file named `INSTRUCTIONS.md`.  Aim your instructions toward a child of age 12-15 with some limited programming experience.  Include alternative graphical (and other) assets, so that the children can create games that differ from your sample.
+## Saving / SaveManager Script
+Saving is done by putting the stats of the player in a gameobject initially in the Mainmenu scene. This needs to be done to ensure the player can load and start a new game properly. You can create an empty object and attach a SaveManager script to it. You can find this script in Project 1/Assets/Scripts/Saving. Our Player object will interact with this object to get its attributes and saves. 
 
-This project is a major body of work.  You are expected to turn in a completed game experience, though you may not have time to develop more than one level or simple enemies.  You will be expected to combine all of the 2D graphics concepts (as well as user interfaces) into your project, plus you will be expected to add some content that you have learned on your own.
+## Movement script
+The movement script can be dragged onto any game object you would like to move around with WASD check the Player object on our game to see how to setup a character. the movementSpeed field can be changed to change the objects movement speed and the Animator field can have an animator draged onto it to link the animations with the movement.
 
-The trailer video should be between 1 and 5 minutes long, and should demonstrate the most significant features of the game.  Be sure that any assets that you use in the game, and in the trailer video, are public domain to avoid copyright strikes and takedowns.  Ideally, you should post your trailer video on YouTube and provide a link in this document (at the top).  The video can be unlisted or private, if you prefer, as long as the instructor and TA can view it somehow.
+## EnemyMove script
+this script causes the gameobject to move towards the player object. movement speed field is set with movementSpeed, enemy sprite used for animation is draged into SpriteRenderer, rigidbody of the gameobject is dragged into enemyPhysiscs. for an example of this check either of the enemy prefabs.
 
-_**Note:**  This project is the equivalent of a midterm examination, and will be marked accordingly._
+## Shoot script
+The shoot script is used to have a game object shoot a projectile prefab in this case we can use a friendly bullet or enemy bullet. to use the script first add it to the object you would like to shoot. the shootspot is the location where the bullet will be fired from you can drag on the location of the player or a gun they are holding if you have one. the bullet field will require you to drag on the bullet prefab you are using and the bullet random can be the same or different prefab this is for the random direction bullet that is unlocked after hitting level 5. you can also change the base firerate. see player or one of the enemy prefabs for an example how this works.
 
-The nature of the project is entirely up to you, but you should choose a project that gives you the opportunity to demonstrate the concepts learned in this course.  Games like top-down RPGs, side-scrolling shooters, side-scrolling platformers are ideal as they use many of the course concepts.  However, if you have a different type of game in mind, contact the instructor just to be sure you won’t be missing anything critical.
+## Bullet, Enemy bullet, and BulletRandom script
+the bullet script is used with a prefab of your choice to create a projectile that damages enemies on contact. bulletPhysics requires you to drag the rigidbody of your bullet into it. bullet also has the ability to change the projectiles shotspeed range and damage through the fields. Enemy bullet works the same way but damages players instead of enemies. BulletRandom works the same way but fires the bullet in a random direction damaging enemy on contact. see the Pistol Bullet Pistol BulletRand or EnemyBullet prefab for an example of how this works.
 
-The only approved game engine (by default) is Unity, and the language should be C#.  If you have any other ideas, contact the instructor for approval before beginning work.
+## spawnEnemies Script
+spawns enemies with spawn rate increasing based on player level. Drag the base enemy prefab you want to spawn into enemy and the boss you want to spawn at player level 5 and higher into bos. Use this script on the player. Check out the player for an example how to use this script. 
 
+## Enemy Script
+this script sets up your enemy prefab with its health, and death. drag the animator for your enemy into animator to set the death animation, drag the prefab for your experiance into XpOrb and prefab for health pickup into heart. drag the tranform of the prefab into enemy location and set the health of your enemy using the enemyHealth field. see any of the enemy prefabs to see how this works.
 
-### Gathering Assets
+## PlayerAttribute Script
+This script is crutial in giving your character the attributes and saving as well. Drag this script into your player gameobject. Also drag in the appropriate gameobjects into the correct serialized fields to ensure the player is intereacting with the score and HUD. See the Character gameobject for an example. 
 
-You can get your assets from anywhere you want, as long as you have the rights to use them, but here are a few good sources:
-
-- https://opengameart.org/
-- https://kenney.nl/assets?q=2d
-- https://www.gameart2d.com/freebies.html
-
-_**Note:** Ensure that you have the right to use these assets, including any attribution in your project as required._
-
-_**Note:** Keep in mind that if you download an animated character from the Asset Store, it isn’t going to count for as much as someone who used a graphic file to rig and animate their own character.  Similarly, someone who downloads a platforming physics script isn’t going to get as much credit as someone who created their own.  This is true for all assets that do some of the work for you.  It is ok to use them, but not as a shortcut to avoid demonstrating that you have acquired the necessary skills to develop these game elements yourself._
-
-
-## Evaluation
-
-The project will be evaluated both objectively and subjectively.
-
-The objective evaluation, which amounts to `12/30` of the marks, will account for each of the major course concepts.  If you have implemented a particular course concept yourself, and have included instructions for the children in your audience, then you will get full marks.  If you have implemented it incorrectly, or have used someone else’s code to complete it, you will receive partial marks.  If you have not implemented it, you will receive zero for that course concept.  This list will stay the same until the due date of the project, so there is no excuse for not getting full marks for this part of the evaluation.  These major concepts are:
-
-- `2.0 marks` - Level creation 
-- `2.0 marks` - Sprite animation (via sprite sheets and/or rigging) 
-- `1.0 marks` - Physics/collision system 
-- `1.0 marks` - User input 
-- `1.0 marks` - Game state loading/saving 
-- `1.0 marks` - Menus, HUD, and other gameplay interfaces (e.g. health bars) 
-- `3.0 marks` - Instructions 
-- `1.0 marks` - Trailer video for your sample game
-
-The subjective evaluation amounts to `18/30` marks.  Since it is expected that the objective marks will be close to 100%, these marks will target an average score of around 50% to (somewhat) compensate.  The best groups will receive full marks in one (or more) of these categories, and everybody else will get a mark reflective of their comparative score.  This will further be broken down into three categories:
-
-- `12.0 marks` - An assessment of the estimated amount of work done on the project
-- ` 3.0 marks` - An assessment of the quality of the code and design of the project, including adherence to best practices discussed in the course
-- ` 3.0 marks` - An assessment of the aesthetic and gameplay quality, as well as creativity, of the project, instructions, and trailer video
+## PauseMenu Script
+This script handles all the buttons in the pause screen, along with freezing the game once the pause is hit and unfreezing when the game is resumed. There are various functions in this script that you can use in any buttons in order to do pause-menu related things. You can drag and drop this script into any element in your pause canvas. You need to assign your buttons to the corresponding functions within this script. See the PauseButton for an example. 
 
 
-## Advice
-
-It is strongly recommended that you work on parts of your project, immediately after completing the relevant labs and/or assignment.  For example, we’ll learn how to develop a level using `Tilemap` in lecture.  The following week there will be a lab assignment related to this.  There will then be a related assignment, which also includes level development with `Tilemap`.  After you’ve finished the lab assignment and the assignment, it is recommended that you develop a preliminary level for your project, and document the process in the `INSTRUCTIONS.md` file.  Working in this way, you will stay on track to finish on time.
-
-Like any senior project, it is expected that you learn some concepts on your own, and employ them in the project.  Including only what was done during the lectures, labs, and assignments should be considered the absolute minimum.
-
-In courses such as this, the most common source of disappointing marks is a result of students waiting until far too late to begin their major projects.
-
-
-## How to Submit
-
-To submit this assignment, you only need to commit and push your code to your copy of this repository.  It is advisable, especially if you are new to git and GitHub, to verify that your most up-to-date code appears on GitHub.
-
-Be sure that you have a video included which highlights all of the features of your game, as sometimes projects don't work out of the box.  If this happens and I'm not able to get it working in a reasonable time, then your video will be the only way I have of seeing your project in action.  If I cannot run your project, you may lose marks.
-
-_**Note:** Do not put your project into a sub-folder.  The top-level directory of this repository should contain your project directly for the `.gitignore` file to do its job and eliminate unnecessary uploads/downloads._
